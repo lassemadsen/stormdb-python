@@ -513,6 +513,7 @@ class Query(object):
                 key=lambda x: os.path.splitext(x)[0]))
 
     def filter_series(self,
+                      types=None,
                       description=None,
                       subjects=None,
                       modalities=None,
@@ -564,13 +565,26 @@ class Query(object):
             files : list of str
                 list of strings with file names
         """
-        types = ''  # return all types of series (DICOM)
+        # types = ''  # return all types of series (DICOM)
         anywithtype = '0'  # even return series without a type
         excluded = '0'
         studies = ''  # for study-filtering, use either metas or write new func
         meta_str = ''
         outp = ''
         removeProjects = ''
+
+        if isinstance(types, list):
+            try:
+                types_str = '|'.join(types)
+            except TypeError:
+                raise DBError('When using a list of descriptions, each '
+                              'element must be a string.')
+        elif types is None:
+            types_str = ''
+        elif not isinstance(types, string_types):
+            raise DBError('description-parameter must be str or list of str')
+        else:
+            types_str = types
 
         if isinstance(description, list):
             try:
@@ -630,7 +644,7 @@ class Query(object):
         url = 'filteredseries?' + self._login_code + '&projectCode=' + \
               self.proj_name + '&subjects=' + subjects_str + '&studies=' + \
               studies + '&modalities=' + modalities_str + \
-              '&types=' + types + '&anyWithType=' + anywithtype + \
+              '&types=' + types_str + '&anyWithType=' + anywithtype + \
               '&description=' + description_str + '&excluded=' + excluded + \
               '&' + meta_str + outp + '&removeProjects=' + removeProjects
         output = self._send_request(url)
