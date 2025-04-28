@@ -108,7 +108,7 @@ class Query(object):
                 if self._verbose:
                     print('Reading login credentials from ' +
                           self._stormdblogin)
-                self._login_code = fid.readline()
+                self._login_code = fid.readline().strip()
         except IOError:
             print('Login credentials not found, please enter them here')
             print('WARNING: This might not work if you\'re in an IDE '
