@@ -528,6 +528,9 @@ class Query(object):
 
         Parameters
         ----------
+        types : str | list of str | None
+            A string or list or strings identifying one or more types of
+                the study to get. None is equivalent to all modalities.
         description : str | list of str | None
             A string or list of strings containing the name of the series to
             extract. The asterisk ('*') may be used as a wildcard. None
