@@ -19,7 +19,14 @@ for sub in subjects:
   # do some work
 ```
 
+
 Submodule: process
 -----------------
 
 NEEDS UPDATING, see also `doc`-folder
+
+Install
+-----------------
+```
+pip install git+https://github.com/lassemadsen/stormdb-python#egg=stormdb-python
+```
