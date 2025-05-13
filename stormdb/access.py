@@ -347,17 +347,22 @@ class Query(object):
             Key-value pairs from database
         """
         url = 'subjectmetas?' + self._login_code + \
-              '&projectCode=' + self.proj_name + '&subjectNo=' + subj_id
+              '&projectCode=' + self.proj_name + \
+              '&subjectNo=' + subj_id
+        
         output = self._send_request(url)
 
-        # Split at '\n'
-        info_list = output.split('\n')
-        # Remove any empty entries!
-        info_list = [x for x in info_list if x]
-        # create a 2D list with series name (as string)
-        # in 1st column and numerical index (also as string) in 2nd column
-        info_list_2d = [x.split('$') for x in info_list]
-        info_dict = {key: value for key, value in info_list_2d}
+        prop_list = output.strip().split('\n')
+
+        info_dict = {}
+        for p in prop_list:
+            url = 'subjectmeta?' + self._login_code + \
+                  '&projectCode=' + self.proj_name + \
+                  '&subjectNo=' + subj_id + \
+                  '&prop=' + p
+            
+            output = self._send_request(url)
+            info_dict[p] = output
 
         return (info_dict)
 
@@ -473,18 +478,21 @@ class Query(object):
               '&study=' + study
         output = self._send_request(url)
 
-        # NB following is duplicate from above (get_subject_info),
-        # consider refactoring into private method
-        # Split at '\n'
-        info_list = output.split('\n')
-        # Remove any empty entries!
-        info_list = [x for x in info_list if x]
-        # create a 2D list with series name (as string)
-        # in 1st column and numerical index (also as string) in 2nd column
-        info_list_2d = [x.split('$') for x in info_list]
-        info_dict = {key: value for key, value in info_list_2d}
+        prop_list = output.strip().split('\n')
+
+        info_dict = {}
+        for p in prop_list:
+            url = 'studymeta?' + self._login_code + \
+                '&projectCode=' + self.proj_name + \
+                '&subjectNo=' + subj_id + \
+                '&study=' + study + \
+                '&prop=' + p
+            
+            output = self._send_request(url)
+            info_dict[p] = output
 
         return (info_dict)
+
 
 
     def get_series(self, subj_id, study, modality):
