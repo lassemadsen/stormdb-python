@@ -705,7 +705,7 @@ class Query(object):
         if study_metas is not None and isinstance(study_metas, dict):
             # do some checking here...
             try:
-                meta_str += 'studymetas[{:s}]={:s}${:d}&'. \
+                meta_str += 'studymetas[{:s}]={:s}${:s}&'. \
                     format(study_metas['name'],
                            study_metas['comparison'],
                            study_metas['value'])

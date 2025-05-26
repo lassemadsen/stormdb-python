@@ -361,7 +361,7 @@ class ClusterJob(object):
         except subp.CalledProcessError as cpe:
             raise RuntimeError('qsub submission failed with error code {:d}, '
                                'output is:\n\n{:s}'.format(
-                                   cpe.returncode, cpe.output))
+                                   cpe.returncode, cpe.output.decode('utf-8')))
         else:
             # py2-3 safety
             output = output.decode('ascii', 'ignore').rstrip()
