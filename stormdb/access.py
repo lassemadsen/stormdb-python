@@ -593,8 +593,7 @@ class Query(object):
                       modalities=None,
                       study_date_range=None,
                       study_metas=None,
-                      return_files=True,
-                      return_excluded=False):
+                      return_files=True):
         """Select series based on their description (name)
 
         Get list of series (and corresponding files) from database matching
@@ -626,8 +625,6 @@ class Query(object):
             studies are returned.
         return_files : bool
             Default is True: return the names of the files for each series.
-        return_excluded : bool
-            If True, series that are excldued in stormDB will also be returned.
 
         Returns
         -------
@@ -647,10 +644,7 @@ class Query(object):
         """
         # types = ''  # return all types of series (DICOM)
         anywithtype = '0'  # even return series without a type
-        if return_excluded:
-            excluded = '1'
-        else:
-            excluded = '0'
+        excluded = '0'
         studies = ''  # for study-filtering, use either metas or write new func
         meta_str = ''
         outp = ''
